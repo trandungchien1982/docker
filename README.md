@@ -1,80 +1,90 @@
 # docker
 Series về build docker image/docker-compose/tuỳ biến Docker Images ...
 
-# Ví dụ [04.ActiveMQ]
+# Ví dụ [05.KafkaSimple1Broker]
 ==============================================================
 
-**Docker Images tạo môi trường ActiveMQ 5.14.2-Alpine:**<br/>
-(sử dụng phiên bản alpine cho nó lightweight)
+**Tham khảo**
+- https://hub.docker.com/r/landoop/fast-data-dev
 
+
+**Docker Images tạo môi trường Kafka dựng sẵn gồm 1 Broker với các UI/Tools đi kèm:**<br/>
+- Apache Kafka
+- Kafka Connect
+- Zookeeper
+- Confluent Schema Registry
+- REST Proxy
+- Lenses.io Lenses hoặc kafka-topics-ui, schema-registry-ui, kafka-connect-ui
+- Lenses.io Stream Reactor
+- 25+ Kafka Connectors để simplify ETL processes
+- Integration testing và examples embedded <br/>
+*(File Docker Image khá nặng và chiếm khoảng 680.53 MB)*
+
+**Các lệnh thực hiện**
 ```shell
--- Init+Start ActiveMQ
-docker-compose -f 01.docker-compose.5.14.2.yml up
+-- Init+Start Kafka
+docker-compose -f 01.docker-compose.AIO.fast-data-dev.yml up
 
 
--- Start/Stop PostgreSQL
-docker-compose -f 01.docker-compose.5.14.2.yml start
-docker-compose -f 01.docker-compose.5.14.2.yml stop
+-- Start/Stop Kafka
+docker-compose -f 01.docker-compose.AIO.fast-data-dev.yml start
+docker-compose -f 01.docker-compose.AIO.fast-data-dev.yml stop
 
 
 -- Remove all
-docker-compose -f 01.docker-compose.5.14.2.yml down
+docker-compose -f 01.docker-compose.AIO.fast-data-dev.yml down
 ```
 
+**Kết quả thực thi**
 ```shell
-tdc@Mtdc % docker-compose -f 01.docker-compose.5.4.2.yml up
-Pulling active-mq-custom (rmohr/activemq:5.14.2-alpine)...
-5.14.2-alpine: Pulling from rmohr/activemq
-e7c96db7181b: Already exists
-f910a506b6cb: Pull complete
-b6abafe80f63: Pull complete
-414159afd29f: Pull complete
-Digest: sha256:5e1166a4e165c68279e8094d7afc35d12fd6f110d9c34cf723bb5792c63a8130
-Status: Downloaded newer image for rmohr/activemq:5.14.2-alpine
-Creating activemq_active-mq-custom_1 ... done
-Attaching to activemq_active-mq-custom_1
-active-mq-custom_1  | INFO: Loading '/opt/activemq/bin/env'
-active-mq-custom_1  | INFO: Using java '/usr/lib/jvm/java-1.8-openjdk/jre/bin/java'
-active-mq-custom_1  | INFO: Starting in foreground, this is just for debugging purposes (stop process by pressing CTRL+C)
-active-mq-custom_1  | INFO: Creating pidfile /opt/activemq/data/activemq.pid
-active-mq-custom_1  | Java Runtime: IcedTea 1.8.0_212 /usr/lib/jvm/java-1.8-openjdk/jre
-active-mq-custom_1  |   Heap sizes: current=62976k  free=58698k  max=932352k
-active-mq-custom_1  |     JVM args: -Xms64M -Xmx1G -Djava.util.logging.config.file=logging.properties -Djava.security.auth.login.config=/opt/activemq/conf/login.config -Dcom.sun.management.jmxremote -Djava.awt.headless=true -Djava.io.tmpdir=/opt/activemq/tmp -Dactivemq.classpath=/opt/activemq/conf:/opt/activemq/../lib/: -Dactivemq.home=/opt/activemq -Dactivemq.base=/opt/activemq -Dactivemq.conf=/opt/activemq/conf -Dactivemq.data=/opt/activemq/data
-active-mq-custom_1  | Extensions classpath:
-active-mq-custom_1  |   [/opt/activemq/lib,/opt/activemq/lib/camel,/opt/activemq/lib/optional,/opt/activemq/lib/web,/opt/activemq/lib/extra]
-active-mq-custom_1  | ACTIVEMQ_HOME: /opt/activemq
-active-mq-custom_1  | ACTIVEMQ_BASE: /opt/activemq
-active-mq-custom_1  | ACTIVEMQ_CONF: /opt/activemq/conf
-active-mq-custom_1  | ACTIVEMQ_DATA: /opt/activemq/data
-active-mq-custom_1  | Loading message broker from: xbean:activemq.xml
-active-mq-custom_1  |  INFO | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@4883b407: startup date [Sat Nov 04 16:07:55 GMT 2023]; root of context hierarchy
-active-mq-custom_1  |  INFO | Using Persistence Adapter: KahaDBPersistenceAdapter[/opt/activemq/data/kahadb]
-active-mq-custom_1  |  INFO | PListStore:[/opt/activemq/data/localhost/tmp_storage] started
-active-mq-custom_1  |  INFO | Apache ActiveMQ 5.14.2 (localhost, ID:1f9e499242b3-35223-1699114076505-0:1) is starting
-active-mq-custom_1  |  INFO | Listening for connections at: tcp://1f9e499242b3:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600
-active-mq-custom_1  |  INFO | Connector openwire started
-active-mq-custom_1  |  INFO | Listening for connections at: amqp://1f9e499242b3:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600
-active-mq-custom_1  |  INFO | Connector amqp started
-active-mq-custom_1  |  INFO | Listening for connections at: stomp://1f9e499242b3:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600
-active-mq-custom_1  |  INFO | Connector stomp started
-active-mq-custom_1  |  INFO | Listening for connections at: mqtt://1f9e499242b3:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600
-active-mq-custom_1  |  INFO | Connector mqtt started
-active-mq-custom_1  |  WARN | ServletContext@o.e.j.s.ServletContextHandler@4278284b{/,null,STARTING} has uncovered http methods for path: /
-active-mq-custom_1  |  INFO | Listening for connections at ws://1f9e499242b3:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600
-active-mq-custom_1  |  INFO | Connector ws started
-active-mq-custom_1  |  INFO | Apache ActiveMQ 5.14.2 (localhost, ID:1f9e499242b3-35223-1699114076505-0:1) started
-active-mq-custom_1  |  INFO | For help or more information please see: http://activemq.apache.org
-active-mq-custom_1  |  INFO | No Spring WebApplicationInitializer types detected on classpath
-active-mq-custom_1  |  INFO | ActiveMQ WebConsole available at http://0.0.0.0:8161/
-active-mq-custom_1  |  INFO | ActiveMQ Jolokia REST API available at http://0.0.0.0:8161/api/jolokia/
-active-mq-custom_1  |  INFO | Initializing Spring FrameworkServlet 'dispatcher'
-active-mq-custom_1  |  INFO | No Spring WebApplicationInitializer types detected on classpath
-active-mq-custom_1  |  INFO | jolokia-agent: Using policy access restrictor classpath:/jolokia-access.xml
+tdc@tdc:~/docker/kafka$ docker-compose -f 01.docker-compose.AIO.fast-data-dev.yml up
+Creating kafka_fast-dev-kafka_1 ... done
+Attaching to kafka_fast-dev-kafka_1
+fast-dev-kafka_1  | Starting services.
+fast-dev-kafka_1  | This is Lenses.io’s fast-data-dev. Kafka 2.6.2-L0 (Lenses.io's Kafka Distribution).
+fast-dev-kafka_1  | You may visit http://127.0.0.1:3030 in about a minute.
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/01-zookeeper.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/02-broker.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/03-schema-registry.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/04-rest-proxy.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/05-connect-distributed.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/06-caddy.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/07-smoke-tests.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/08-logs-to-kafka.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Included extra file "/etc/supervisord.d/99-supervisord-running-sample-data.conf" during parsing
+fast-dev-kafka_1  | 2023-11-05 16:22:07,299 INFO Set uid to user 0 succeeded
+fast-dev-kafka_1  | 2023-11-05 16:22:07,302 INFO RPC interface 'supervisor' initialized
+fast-dev-kafka_1  | 2023-11-05 16:22:07,302 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+fast-dev-kafka_1  | 2023-11-05 16:22:07,303 INFO supervisord started with pid 7
+fast-dev-kafka_1  | 2023-11-05 16:22:08,306 INFO spawned: 'broker' with pid 176
+fast-dev-kafka_1  | 2023-11-05 16:22:08,311 INFO spawned: 'caddy' with pid 177
+fast-dev-kafka_1  | 2023-11-05 16:22:08,317 INFO spawned: 'connect-distributed' with pid 178
+fast-dev-kafka_1  | 2023-11-05 16:22:08,325 INFO spawned: 'logs-to-kafka' with pid 179
+fast-dev-kafka_1  | 2023-11-05 16:22:08,332 INFO spawned: 'rest-proxy' with pid 185
+fast-dev-kafka_1  | 2023-11-05 16:22:08,338 INFO spawned: 'running-sample-data-ais' with pid 187
+fast-dev-kafka_1  | 2023-11-05 16:22:08,343 INFO spawned: 'running-sample-data-backblaze-smart' with pid 192
+fast-dev-kafka_1  | 2023-11-05 16:22:08,347 INFO spawned: 'running-sample-data-taxis' with pid 196
+fast-dev-kafka_1  | 2023-11-05 16:22:08,351 INFO spawned: 'running-sample-data-telecom-italia' with pid 198
+fast-dev-kafka_1  | 2023-11-05 16:22:08,354 INFO spawned: 'schema-registry' with pid 201
+fast-dev-kafka_1  | 2023-11-05 16:22:08,356 INFO spawned: 'smoke-tests' with pid 202
+fast-dev-kafka_1  | 2023-11-05 16:22:08,359 INFO spawned: 'zookeeper' with pid 205
+fast-dev-kafka_1  | 2023-11-05 16:22:09,312 INFO success: broker entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,313 INFO success: caddy entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,313 INFO success: connect-distributed entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,318 INFO success: logs-to-kafka entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,337 INFO success: rest-proxy entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,337 INFO success: running-sample-data-ais entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,341 INFO success: running-sample-data-backblaze-smart entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,352 INFO success: running-sample-data-taxis entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,353 INFO success: running-sample-data-telecom-italia entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,353 INFO success: schema-registry entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,354 INFO success: smoke-tests entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:22:09,356 INFO success: zookeeper entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+fast-dev-kafka_1  | 2023-11-05 16:23:23,901 INFO exited: logs-to-kafka (exit status 0; expected)
+fast-dev-kafka_1  | 2023-11-05 16:26:03,769 INFO exited: smoke-tests (exit status 1; not expected)
 ```
 
-**Truy cập vào ActiveMQ UI**
+**Truy cập vào Kafka UI Dashboard**
 ```shell
-Server: localhost
-Usr : admin
-Pwd : admin
+http://localhost:3030
 ```
