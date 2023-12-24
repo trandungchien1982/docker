@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  nginx-reverse-proxy:
+    image: nginx:stable-alpine3.17
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+      - ./nginx-certs:/tls-ssl
+    networks:
+      - common-network
+
+  nginx-server:
+    image: tdchien1982/k8s:nginxdemos-hello-1.0
+    ports:
+      - "8070:80"
+    networks:
+      - common-network
+
+  angular-server:
+    image: tdchien1982/angular:10.build-docker-nginx
+    ports:
+      - "8090:3100"
+    environment:
+      PORT: 3100
+
+    networks:
+      - common-network
+
+networks:
+  common-network:
+    external: true
